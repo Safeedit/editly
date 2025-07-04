@@ -1,0 +1,21 @@
+# Root level ignore
+.env
+
+# Node modules (frontend)
+frontend/node_modules/
+
+# Python cache files (backend)
+backend/__pycache__/
+*.pyc
+
+# Build files
+frontend/build/
+
+# Uploads/outputs not to track
+backend/uploads/
+backend/outputs/
+
+# IDE configs
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,214 @@
+/* ====================
+   Base Styles
+==================== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at center, #ff6a00, #8b0000 80%);
+  background-size: 200% 200%;
+  animation: fireGlow 6s ease-in-out infinite;
+  color: #fefefe;
+}
+
+@keyframes fireGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.container {
+  padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+
+/* ====================
+   Header
+==================== */
+h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 24px;
+  font-weight: 600;
+  color: #fff8dc;
+}
+
+/* ====================
+   Controls (Buttons + Inputs)
+==================== */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.input {
+  padding: 6px 10px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  font-size: 14px;
+  min-width: 60px;
+  background-color: #2c2c2c;
+  color: #fefefe;
+}
+
+.btn {
+  background-color: #ff8c00;
+  color: #fff;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #ff4500;
+}
+
+/* ====================
+   PDF Viewer Section
+==================== */
+.pdf-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.overlay {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.overlay div {
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* ====================
+   Text Edit Toolbar
+==================== */
+.text-toolbar {
+  position: absolute;
+  top: -42px;
+  left: 0;
+  display: flex;
+  gap: 6px;
+  padding: 6px 8px;
+  background-color: #1e1e1e;
+  border: 1px solid #ff8c00;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.2);
+  z-index: 100;
+}
+
+.toolbar-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  color: #ffddaa;
+}
+
+.toolbar-btn:hover {
+  background-color: #333;
+}
+
+/* ====================
+   Tool Cards for Features
+==================== */
+.tools-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tool-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #191818;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(237, 212, 165, 0.2);
+  box-shadow: 0 0 15px rgba(243, 206, 162, 0.3);
+  min-width: 220px;
+  max-width: 300px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.tool-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(255, 165, 0, 0.6);
+}
+
+.tool-box h3 {
+  color: #ffd700;
+  margin-bottom: 12px;
+}
+
+.tool-box p {
+  color: #ffffff;
+}
+
+.tool-box input[type="file"] {
+  margin: 10px 0;
+}
+
+.tool-box button {
+  background-color: #ff8c00;
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.tool-box button:hover {
+  background-color: #ff4500;
+}
+
+/* ====================
+   Responsive Styles
+==================== */
+@media (max-width: 640px) {
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .input,
+  .btn {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .text-toolbar {
+    flex-wrap: wrap;
+    top: -48px;
+  }
+
+  .tools-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tool-box {
+    width: 90%;
+    max-width: 350px;
+  }
+}

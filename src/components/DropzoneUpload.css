@@ -1,0 +1,24 @@
+/* src/styles/DropzoneUpload.css */
+
+.dropzone {
+  border: 2px dashed #ff8c00;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.04);
+  color: #fff8dc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.dropzone:hover {
+  background-color: rgba(255, 140, 0, 0.1);
+  border-color: #ff4500;
+}
+
+.dropzone.active {
+  background-color: rgba(255, 140, 0, 0.15);
+  border-color: #ffa500;
+}

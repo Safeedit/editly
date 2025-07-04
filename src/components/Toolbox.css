@@ -1,0 +1,30 @@
+.toolbox-container {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  max-width: 1400px;
+  border-radius: 12px;
+  background-color: #1e293b; /* Tailwind slate-800 */
+  color: #f8fafc; /* Tailwind slate-50 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.toolbox-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #facc15; /* Tailwind yellow-400 */
+  text-align: center;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 20px;
+}
+
+.tool-item {
+  background-color: #0f172a; /* Tailwind slate-900 */
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #334155; /* Tailwind slate-700 */
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+}
