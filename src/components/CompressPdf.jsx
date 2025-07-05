@@ -12,6 +12,7 @@ function CompressFile() {
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("file", file2);
 
     let endpoint = "";
     if (fileType === "pdf") {
