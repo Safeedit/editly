@@ -5,8 +5,8 @@ function Navbar() {
   return (
     <nav
       style={{
-        background: "#003366", // Deep Blue background for the nav bar
-        padding: "8px 16px", // Reduced padding for compactness
+        background: "#D3D3D3", // Light gray background for the nav bar
+        padding: "8px 16px",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -14,7 +14,7 @@ function Navbar() {
         position: "sticky",
         top: 0,
         zIndex: 999,
-        boxShadow: "0 2px 4px rgba(0,0,0,0.05)",
+        boxShadow: "0 0 10px rgba(255, 140, 0, 0.7)", // Orange glow effect
       }}
     >
       <Link
@@ -22,9 +22,9 @@ function Navbar() {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "8px", // Reduced gap
-          color: "#FFFFFF", // White text for the logo
-          fontSize: "20px", // Smaller font size
+          gap: "8px",
+          color: "#333333", // Dark text for better contrast
+          fontSize: "20px",
           textDecoration: "none",
           fontWeight: "bold",
         }}
@@ -46,7 +46,7 @@ function Navbar() {
             e.target.style.textShadow = "0 0 5px #FF8C00"; // Fire-like glow effect
           }}
           onMouseOut={(e) => {
-            e.target.style.color = "#FFFFFF"; // White text on mouse out
+            e.target.style.color = "#333333"; // Dark text on mouse out
             e.target.style.textShadow = "none"; // Remove glow effect
           }}
         >
@@ -60,7 +60,7 @@ function Navbar() {
             e.target.style.textShadow = "0 0 5px #FF8C00";
           }}
           onMouseOut={(e) => {
-            e.target.style.color = "#FFFFFF";
+            e.target.style.color = "#333333";
             e.target.style.textShadow = "none";
           }}
         >
@@ -74,7 +74,7 @@ function Navbar() {
             e.target.style.textShadow = "0 0 5px #FF8C00";
           }}
           onMouseOut={(e) => {
-            e.target.style.color = "#FFFFFF";
+            e.target.style.color = "#333333";
             e.target.style.textShadow = "none";
           }}
         >
@@ -86,7 +86,7 @@ function Navbar() {
 }
 
 const navLinkStyle = {
-  color: "#FFFFFF", // White text for links
+  color: "#333333", // Dark text for links
   textDecoration: "none",
   fontSize: "14px", // Smaller font size for links
   transition: "color 0.2s ease-in-out, text-shadow 0.2s ease-in-out", // Smooth transition for effects
