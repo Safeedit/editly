@@ -7,8 +7,14 @@ function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically handle form submission, e.g., send an email
-    alert(`Thank you, ${name}! Your message has been sent.`);
+
+    const subject = encodeURIComponent("Contact Form Submission");
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+    );
+    const mailtoLink = `mailto:safeeditpdf@gmail.com?subject=${subject}&body=${body}`;
+
+    window.location.href = mailtoLink; // This will open the user's email client
     setName("");
     setEmail("");
     setMessage("");
