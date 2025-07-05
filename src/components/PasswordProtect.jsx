@@ -18,7 +18,7 @@ function PasswordProtect() {
     formData.append("password", password);
 
     try {
-      const res = await fetch("https://editlybackend.onrender.com/convert", {
+      const res = await fetch("https://editlybackend.onrender.com/encrypt", {
         method: "POST",
         body: formData,
       });
