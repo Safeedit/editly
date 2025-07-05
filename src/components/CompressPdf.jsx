@@ -5,7 +5,7 @@ function CompressFile() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [quality, setQuality] = useState("/screen");
-  const [fileType, setFileType] = useState("pdf"); // "pdf" or "any"
+  const [fileType, setFileType] = useState("pdf");
 
   const handleCompress = async () => {
     if (!file) return alert("📄 Please select a file.");
@@ -19,7 +19,6 @@ function CompressFile() {
         : "https://editly-compressor-service.onrender.com/compress-any";
 
     if (fileType === "pdf") {
-      formData.append("type", "compress-pdf");
       formData.append("quality", quality);
     }
 
@@ -32,8 +31,23 @@ function CompressFile() {
         body: formData,
       });
 
-      if (!res.ok) throw new Error(await res.text());
+      const contentType = res.headers.get("Content-Type");
 
+      // If server returns JSON (like "already optimized" case)
+      if (contentType && contentType.includes("application/json")) {
+        const json = await res.json();
+
+        if (json.message) {
+          alert(
+            `ℹ️ ${json.message}\n\nOriginal: ${json.original_kb} KB\nCompressed: ${json.compressed_kb} KB`
+          );
+        } else {
+          alert("⚠️ Unknown response from server.");
+        }
+        return;
+      }
+
+      // Normal binary file response
       const blob = await res.blob();
       const afterSizeKB = blob.size / 1024;
 
