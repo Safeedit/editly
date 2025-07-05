@@ -5,7 +5,7 @@ function Navbar() {
   return (
     <nav
       style={{
-        background: "#DC143C",
+        background: "#003366", // Deep Blue background for the nav bar
         padding: "12px 24px",
         display: "flex",
         justifyContent: "space-between",
@@ -23,7 +23,7 @@ function Navbar() {
           display: "flex",
           alignItems: "center",
           gap: "10px",
-          color: "#1a1a1a",
+          color: "#FFFFFF", // White text for the logo
           fontSize: "22px",
           textDecoration: "none",
           fontWeight: "bold",
@@ -41,24 +41,24 @@ function Navbar() {
         <Link
           to="/"
           style={navLinkStyle}
-          onMouseOver={(e) => (e.target.style.color = "#ff8c00")}
-          onMouseOut={(e) => (e.target.style.color = "#1a1a1a")}
+          onMouseOver={(e) => (e.target.style.color = "#FF8C00")} // Orange hover color
+          onMouseOut={(e) => (e.target.style.color = "#FFFFFF")} // White text on mouse out
         >
           Home
         </Link>
         <Link
           to="/about"
           style={navLinkStyle}
-          onMouseOver={(e) => (e.target.style.color = "#ff8c00")}
-          onMouseOut={(e) => (e.target.style.color = "#1a1a1a")}
+          onMouseOver={(e) => (e.target.style.color = "#FF8C00")}
+          onMouseOut={(e) => (e.target.style.color = "#FFFFFF")}
         >
           About
         </Link>
         <Link
           to="/contact"
           style={navLinkStyle}
-          onMouseOver={(e) => (e.target.style.color = "#ff8c00")}
-          onMouseOut={(e) => (e.target.style.color = "#1a1a1a")}
+          onMouseOver={(e) => (e.target.style.color = "#FF8C00")}
+          onMouseOut={(e) => (e.target.style.color = "#FFFFFF")}
         >
           Contact
         </Link>
@@ -68,7 +68,7 @@ function Navbar() {
 }
 
 const navLinkStyle = {
-  color: "#1a1a1a",
+  color: "#FFFFFF", // White text for links
   textDecoration: "none",
   fontSize: "16px",
   transition: "color 0.2s ease-in-out",
