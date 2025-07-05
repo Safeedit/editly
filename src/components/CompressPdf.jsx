@@ -23,7 +23,7 @@ function CompressFile() {
       formData.append("quality", quality);
     }
 
-    const beforeSizeKB = file.size / 1024;
+    const beforeSizeKB = file?.size ? file.size / 1024 : 0;
     setLoading(true);
 
     try {
@@ -97,7 +97,7 @@ function CompressFile() {
       </div>
 
       <DropzoneUpload
-        onFilesSelected={(f) => setFile(f)}
+        onFilesSelected={(f) => setFile(f[0])}
         accept={fileType === "pdf" ? "application/pdf" : "*/*"}
         multiple={false}
       />
