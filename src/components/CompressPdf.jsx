@@ -97,11 +97,10 @@ function CompressFile() {
       </div>
 
       <DropzoneUpload
-        onFilesSelected={(f) => setFile(f[0])}
+        onFilesSelected={(file) => setFile(file)}
         accept={fileType === "pdf" ? "application/pdf" : "*/*"}
         multiple={false}
       />
-
       {file && (
         <p style={{ color: "#fefefe", fontSize: "14px" }}>
           ✅ Selected: {file.name}
