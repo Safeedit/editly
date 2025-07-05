@@ -5,13 +5,16 @@ function OcrPdf() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [extractedText, setExtractedText] = useState("");
+  const [lang, setLang] = useState("eng");         // 🌐 Language selector
+  const [maxPages, setMaxPages] = useState(5);      // 📄 Max pages
 
   const handleOCR = async () => {
-    if (!file) return alert("📄 Please select a scanned PDF");
+    if (!file) return alert("📄 Please select a file (PDF or Image)");
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("type", "ocr-pdf");
+    formData.append("lang", lang);
+    formData.append("max_pages", maxPages);
 
     setLoading(true);
     try {
@@ -25,18 +28,8 @@ function OcrPdf() {
         throw new Error(errText || "OCR failed");
       }
 
-      const blob = await res.blob();
-      const text = await blob.text(); // ✅ Extract text from blob
-
-      // Show preview and allow download
-      setExtractedText(text);
-
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = file.name.replace(/\.\w+$/, ".txt");
-      link.click();
-      URL.revokeObjectURL(url);
+      const json = await res.json();
+      setExtractedText(json.text || "No text extracted.");
     } catch (err) {
       console.error("❌ OCR Error:", err);
       alert("OCR failed: " + err.message);
@@ -58,14 +51,14 @@ function OcrPdf() {
         boxShadow: "0 0 15px rgba(243, 206, 162, 0.3)",
       }}
     >
-      <h3 style={{ color: "#ffd700", marginBottom: "12px" }}>🔍 OCR PDF</h3>
+      <h3 style={{ color: "#ffd700", marginBottom: "12px" }}>🔍 OCR PDF / Image</h3>
 
       <DropzoneUpload
         onFilesSelected={(f) => {
           setFile(f);
-          setExtractedText(""); // Clear preview when new file selected
+          setExtractedText("");
         }}
-        accept="application/pdf"
+        accept=".pdf,.jpg,.jpeg,.png"  // ✅ Accept both PDF and images
       />
 
       {file && (
@@ -74,11 +67,42 @@ function OcrPdf() {
         </p>
       )}
 
+      {/* 🌐 Language Selector */}
+      <div style={{ marginTop: "10px", fontSize: "14px" }}>
+        <label style={{ marginRight: "8px" }}>Language:</label>
+        <select
+          value={lang}
+          onChange={(e) => setLang(e.target.value)}
+          style={{ padding: "4px 8px", borderRadius: "6px" }}
+        >
+          <option value="eng">🇺🇸 English</option>
+          <option value="hin">🇮🇳 Hindi</option>
+          <option value="mar">🇮🇳 Marathi</option>
+          <option value="fra">🇫🇷 French</option>
+          <option value="deu">🇩🇪 German</option>
+          <option value="spa">🇪🇸 Spanish</option>
+          {/* Add more languages supported by your Tesseract instance */}
+        </select>
+      </div>
+
+      {/* 📄 Max Page Input */}
+      <div style={{ marginTop: "10px", fontSize: "14px" }}>
+        <label style={{ marginRight: "8px" }}>Max pages (PDF):</label>
+        <input
+          type="number"
+          value={maxPages}
+          onChange={(e) => setMaxPages(e.target.value)}
+          min="1"
+          max="30"
+          style={{ padding: "4px 8px", borderRadius: "6px", width: "60px" }}
+        />
+      </div>
+
       <button
         onClick={handleOCR}
         disabled={loading}
         style={{
-          marginTop: "10px",
+          marginTop: "15px",
           padding: "8px 16px",
           backgroundColor: "#28a745",
           color: "#ffffff",
@@ -89,7 +113,7 @@ function OcrPdf() {
           fontWeight: 500,
         }}
       >
-        {loading ? "🔍 Extracting..." : "🔍 OCR PDF"}
+        {loading ? "🔍 Extracting..." : "🔍 OCR File"}
       </button>
 
       {extractedText && (
@@ -115,7 +139,6 @@ function OcrPdf() {
       )}
     </div>
   );
-
 }
 
 export default OcrPdf;
