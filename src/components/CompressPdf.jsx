@@ -18,7 +18,7 @@ function CompressPdf() {
 
     setLoading(true);
     try {
-      const res = await fetch("https://editly-compressor-service.onrender.com", {
+      const res = await fetch("https://editly-compressor-service.onrender.com/compress", {
         method: "POST",
         body: formData,
       });
