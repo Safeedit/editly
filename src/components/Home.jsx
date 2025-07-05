@@ -1,8 +1,5 @@
-// Home.jsx
 import React, { useState, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-
 import PdfToDocx from "./PdfToDocx";
 import DocxToPdf from "./DocxToPdf";
 import ImageToPdf from "./ImageToPdf";
@@ -20,15 +17,25 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 function Home() {
   const [pdfFile, setPdfFile] = useState(null);
+  const [numPages, setNumPages] = useState(null);
   const [textElements, setTextElements] = useState([]);
   const [selectedTextId, setSelectedTextId] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
-  const [fontSize] = useState(12);
-  const [fontColor] = useState("#000000");
-  const [fontFamily] = useState("Arial");
-
   const fileInputRef = useRef();
+
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+      setPdfFile(file);
+    } else {
+      alert("Please upload a valid PDF file.");
+    }
+  };
+
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
 
   const startDrag = (e, id) => {
     e.stopPropagation();
@@ -57,7 +64,25 @@ function Home() {
       onMouseUp={stopDrag}
       onClick={() => setSelectedTextId(null)}
     >
-      <h1></h1>
+      <h1>PDF Tool Suite</h1>
+
+      <input
+        type="file"
+        accept="application/pdf"
+        onChange={onFileChange}
+        ref={fileInputRef}
+      />
+
+      {pdfFile && (
+        <Document
+          file={pdfFile}
+          onLoadSuccess={onDocumentLoadSuccess}
+        >
+          {Array.from(new Array(numPages), (el, index) => (
+            <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+          ))}
+        </Document>
+      )}
 
       <div className="tools-group">
         <div className="tool-box"><PdfToDocx /></div>
