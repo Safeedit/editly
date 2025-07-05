@@ -15,7 +15,7 @@ function OcrPdf() {
 
     setLoading(true);
     try {
-      const res = await fetch("https://editlybackend.onrender.com/convert", {
+      const res = await fetch("https://editly-ocr-service.onrender.com", {
         method: "POST",
         body: formData,
       });
