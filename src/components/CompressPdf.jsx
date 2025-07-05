@@ -23,7 +23,7 @@ function CompressFile() {
       formData.append("quality", quality);
     }
 
-    const beforeSizeKB = file?.size ? file.size / 1024 : 0;
+    const beforeSizeKB = file.size / 1024;
     setLoading(true);
 
     try {
@@ -38,7 +38,7 @@ function CompressFile() {
       const afterSizeKB = blob.size / 1024;
 
       alert(
-        ✅ File Compressed!\n\nOriginal: ${beforeSizeKB.toFixed(2)} KB\nCompressed: ${afterSizeKB.toFixed(2)} KB\nSaved: ${(beforeSizeKB - afterSizeKB).toFixed(2)} KB
+        `✅ File Compressed!\n\nOriginal: ${beforeSizeKB.toFixed(2)} KB\nCompressed: ${afterSizeKB.toFixed(2)} KB\nSaved: ${(beforeSizeKB - afterSizeKB).toFixed(2)} KB`
       );
 
       const url = URL.createObjectURL(blob);
@@ -97,7 +97,7 @@ function CompressFile() {
       </div>
 
       <DropzoneUpload
-        onFilesSelected={(f) => setFile(f[0])}
+        onFilesSelected={(f) => setFile(f)}
         accept={fileType === "pdf" ? "application/pdf" : "*/*"}
         multiple={false}
       />
