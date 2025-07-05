@@ -1,153 +1,171 @@
+// File: src/components/Converter.jsx
 import React, { useState } from "react";
+import axios from "axios";
 import DropzoneUpload from "./DropzoneUpload";
 
-function CompressFile() {
+function Converter() {
   const [file, setFile] = useState(null);
+  const [conversionType, setConversionType] = useState("pdf-to-docx");
+  const [convertedBlob, setConvertedBlob] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [quality, setQuality] = useState("/screen");
-  const [fileType, setFileType] = useState("pdf"); // "pdf" or "any"
 
-  const handleCompress = async () => {
-    if (!file) return alert("📄 Please select a file.");
+  const extMap = {
+    "pdf-to-docx": "docx",
+    "docx-to-pdf": "pdf",
+    "img-to-pdf": "pdf",
+    "split-pdf": "zip",
+    "merge-pdf": "pdf",
+  };
+
+  const acceptMap = {
+    "pdf-to-docx": "application/pdf",
+    "docx-to-pdf":
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "img-to-pdf": "image/*",
+    "split-pdf": "application/pdf",
+    "merge-pdf": "application/zip",
+  };
+
+  const handleConvert = async () => {
+    if (!file || !conversionType) {
+      alert("❗ Please select a file and conversion type.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("type", conversionType);
 
-    const endpoint =
-      fileType === "pdf"
-        ? "https://editly-compressor-service.onrender.com/compress"
-        : "https://editly-compressor-service.onrender.com/compress-any";
-
-    if (fileType === "pdf") {
-      formData.append("type", "compress-pdf");
-      formData.append("quality", quality);
-    }
-
-    const beforeSizeKB = file?.size ? file.size / 1024 : 0;
     setLoading(true);
-
     try {
-      const res = await fetch(endpoint, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error(await res.text());
-
-      const blob = await res.blob();
-      const afterSizeKB = blob.size / 1024;
-
-      alert(
-        `✅ File Compressed!\n\nOriginal: ${beforeSizeKB.toFixed(2)} KB\nCompressed: ${afterSizeKB.toFixed(2)} KB\nSaved: ${(beforeSizeKB - afterSizeKB).toFixed(2)} KB`
+      const response = await axios.post(
+        "https://editlybackend.onrender.com/convert",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          responseType: "blob",
+        }
       );
-
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download =
-        fileType === "pdf"
-          ? file.name.replace(/\.pdf$/, "_compressed.pdf")
-          : file.name + ".zip";
-      link.click();
-      URL.revokeObjectURL(url);
+      setConvertedBlob(response.data);
     } catch (err) {
-      console.error("❌ Compression Error:", err);
-      alert("Compression failed: " + err.message);
+      console.error("❌ Conversion Error:", err);
+      alert(
+        "Conversion failed: " +
+          (err.response?.data || err.message || "Unknown error.")
+      );
     } finally {
       setLoading(false);
     }
   };
 
+  const handleDownload = () => {
+    if (!convertedBlob) return;
+
+    const url = URL.createObjectURL(convertedBlob);
+    const baseName = file.name.split(".")[0];
+    const extension = extMap[conversionType] || "converted";
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${baseName}-converted.${extension}`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div
       style={{
-        padding: "1rem",
-        border: "1px solid rgba(237, 212, 165, 0.2)",
-        borderRadius: "12px",
-        maxWidth: "480px",
-        margin: "1rem auto",
-        background: "#191818",
+        padding: "1.2rem",
+        border: "1px solid #ffd95a40",
+        backgroundColor: "#191818",
+        borderRadius: "10px",
+        boxShadow: "0 0 20px rgba(255, 217, 90, 0.15)",
+        color: "#fff",
+        maxWidth: "520px",
+        margin: "1.5rem auto",
         textAlign: "center",
-        color: "#ffffff",
-        boxShadow: "0 0 15px rgba(243, 206, 162, 0.3)",
       }}
     >
-      <h3 style={{ color: "#ffd700", marginBottom: "12px" }}>🗜 Compress File</h3>
-
-      {/* File Type Switch */}
-      <div style={{ marginBottom: "10px" }}>
-        <label>
-          <input
-            type="radio"
-            value="pdf"
-            checked={fileType === "pdf"}
-            onChange={() => setFileType("pdf")}
-          />{" "}
-          PDF
-        </label>
-        <label style={{ marginLeft: "20px" }}>
-          <input
-            type="radio"
-            value="any"
-            checked={fileType === "any"}
-            onChange={() => setFileType("any")}
-          />{" "}
-          Any File
-        </label>
-      </div>
+      <h3 style={{ color: "#ffd700", marginBottom: "0.5rem" }}>
+        📝 SafeEditPDF
+      </h3>
+      <h4 style={{ color: "#ffffff" }}>📄 Universal Converter</h4>
 
       <DropzoneUpload
-        onFilesSelected={(file) => setFile(file)}
-        accept={fileType === "pdf" ? "application/pdf" : "*/*"}
+        onFilesSelected={(file) => {
+          setFile(file);
+          setConvertedBlob(null);
+        }}
+        accept={acceptMap[conversionType] || "*/*"}
         multiple={false}
       />
+
       {file && (
-        <p style={{ color: "#fefefe", fontSize: "14px" }}>
+        <p style={{ marginTop: "6px", fontSize: "14px" }}>
           ✅ Selected: {file.name}
         </p>
       )}
 
-      {/* Compression Quality for PDF */}
-      {fileType === "pdf" && (
-        <div style={{ margin: "10px 0" }}>
-          <label style={{ marginRight: "8px" }}>Compression level:</label>
-          <select
-            value={quality}
-            onChange={(e) => setQuality(e.target.value)}
-            style={{
-              padding: "4px 8px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              fontSize: "14px",
-            }}
-          >
-            <option value="/screen">🖥️ Low (/screen)</option>
-            <option value="/ebook">📖 Medium (/ebook)</option>
-            <option value="/printer">🖨️ High (/printer)</option>
-            <option value="/prepress">🎨 Very High (/prepress)</option>
-          </select>
-        </div>
-      )}
-
-      <button
-        onClick={handleCompress}
-        disabled={loading}
+      <select
+        value={conversionType}
+        onChange={(e) => {
+          setConversionType(e.target.value);
+          setFile(null);
+          setConvertedBlob(null);
+        }}
         style={{
+          padding: "6px",
           marginTop: "10px",
-          padding: "8px 16px",
-          backgroundColor: "#ff8c00",
-          color: "#ffffff",
-          border: "none",
-          borderRadius: "6px",
-          cursor: loading ? "not-allowed" : "pointer",
+          borderRadius: "5px",
           fontSize: "14px",
-          fontWeight: 500,
         }}
       >
-        {loading ? "🗜 Compressing..." : "🗜 Compress"}
-      </button>
+        <option value="pdf-to-docx">📄 PDF ➡ DOCX</option>
+        <option value="docx-to-pdf">📝 DOCX ➡ PDF</option>
+        <option value="img-to-pdf">🖼️ IMG ➡ PDF</option>
+        <option value="merge-pdf">📚 Merge PDFs (ZIP)</option>
+        <option value="split-pdf">✂️ Split PDF</option>
+      </select>
+
+      <div style={{ marginTop: "12px" }}>
+        <button
+          onClick={handleConvert}
+          disabled={loading || !file}
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#28a745",
+            color: "#ffffff",
+            border: "none",
+            borderRadius: "6px",
+            cursor: loading || !file ? "not-allowed" : "pointer",
+            fontSize: "14px",
+            fontWeight: 500,
+          }}
+        >
+          {loading ? "⏳ Converting..." : "🔁 Convert"}
+        </button>
+
+        {convertedBlob && (
+          <button
+            onClick={handleDownload}
+            style={{
+              marginLeft: "10px",
+              padding: "8px 16px",
+              backgroundColor: "#007bff",
+              color: "#ffffff",
+              border: "none",
+              borderRadius: "6px",
+              fontSize: "14px",
+              fontWeight: 500,
+              cursor: "pointer",
+            }}
+          >
+            ⬇️ Download
+          </button>
+        )}
+      </div>
     </div>
   );
 }
 
-export default CompressFile;
+export default Converter;
