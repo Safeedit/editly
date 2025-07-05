@@ -12,21 +12,21 @@ function CompressFile() {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("file", file2);
 
-    let endpoint = "";
+    const endpoint =
+      fileType === "pdf"
+        ? "https://editly-compressor-service.onrender.com/compress"
+        : "https://editly-compressor-service.onrender.com/compress-any";
+
     if (fileType === "pdf") {
       formData.append("type", "compress-pdf");
       formData.append("quality", quality);
-      endpoint = "https://editly-compressor-service.onrender.com/compress";
-    } else {
-      endpoint = "https://editly-compressor-service.onrender.com/compress-any";
     }
 
+    const beforeSizeKB = file.size / 1024;
     setLoading(true);
-    try {
-      const beforeSizeKB = file.size / 1024;
 
+    try {
       const res = await fetch(endpoint, {
         method: "POST",
         body: formData,
@@ -37,20 +37,17 @@ function CompressFile() {
       const blob = await res.blob();
       const afterSizeKB = blob.size / 1024;
 
-      const saved = beforeSizeKB - afterSizeKB;
-      console.log(`📄 Original: ${beforeSizeKB.toFixed(2)} KB`);
-      console.log(`📉 Compressed: ${afterSizeKB.toFixed(2)} KB`);
-
       alert(
-        `✅ File Compressed!\n\nOriginal size: ${beforeSizeKB.toFixed(2)} KB\nCompressed size: ${afterSizeKB.toFixed(2)} KB\nSaved: ${saved.toFixed(2)} KB`
+        `✅ File Compressed!\n\nOriginal: ${beforeSizeKB.toFixed(2)} KB\nCompressed: ${afterSizeKB.toFixed(2)} KB\nSaved: ${(beforeSizeKB - afterSizeKB).toFixed(2)} KB`
       );
 
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      link.download = fileType === "pdf"
-        ? file.name.replace(/\.pdf$/, "_compressed.pdf")
-        : file.name + ".zip";
+      link.download =
+        fileType === "pdf"
+          ? file.name.replace(/\.pdf$/, "_compressed.pdf")
+          : file.name + ".zip";
       link.click();
       URL.revokeObjectURL(url);
     } catch (err) {
@@ -111,7 +108,7 @@ function CompressFile() {
         </p>
       )}
 
-      {/* Compression Level only for PDF */}
+      {/* Compression Quality for PDF */}
       {fileType === "pdf" && (
         <div style={{ margin: "10px 0" }}>
           <label style={{ marginRight: "8px" }}>Compression level:</label>
