@@ -2,7 +2,14 @@ import React from "react";
 
 function About() {
   return (
-    <div style={{ display: "flex", minHeight: "80vh", backgroundColor: "#121212", color: "#eee" }}>
+    <div style={{
+      display: "flex",
+      minHeight: "80vh",
+      backgroundColor: "#121212",
+      color: "#eee",
+      flexDirection: "column",
+      padding: "1rem"
+    }}>
       
       {/* Left Sidebar Panel */}
       <div style={{
@@ -11,7 +18,8 @@ function About() {
         padding: "2rem",
         borderTopRightRadius: "12px",
         borderBottomRightRadius: "12px",
-        boxShadow: "3px 0 8px rgba(0,0,0,0.4)"
+        boxShadow: "3px 0 8px rgba(0,0,0,0.4)",
+        flexShrink: 0 // Prevents sidebar from shrinking
       }}>
         <h3 style={{ color: "#ffd700", marginBottom: "1rem" }}>What is Editly?</h3>
         <p style={{ fontSize: "14px", lineHeight: "1.6" }}>
@@ -24,7 +32,7 @@ function About() {
       </div>
 
       {/* Main Content */}
-      <div style={{ padding: "2rem", maxWidth: "800px", margin: "auto" }}>
+      <div style={{ padding: "2rem", maxWidth: "800px", margin: "auto", flexGrow: 1 }}>
         <h2 style={{ color: "#ffd700" }}>About Editly</h2>
 
         <p style={{ marginTop: "1rem", fontSize: "16px", lineHeight: "1.6" }}>
@@ -41,6 +49,11 @@ function About() {
             safeeditpdf@gmail.com
           </a>.
         </p>
+
+        {/* Additional Links Section */}
+        <div style={{ marginTop: "2rem", fontSize: "14px", color: "#ccc" }}>
+          <p>For more information, visit our <a href="/faq" style={{ color: "#00bfff" }}>FAQ</a> or check our <a href="/blog" style={{ color: "#00bfff" }}>Blog</a>.</p>
+        </div>
       </div>
     </div>
   );
