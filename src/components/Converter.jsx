@@ -22,17 +22,21 @@ function Converter() {
       alert("❗ Please select a file and conversion type.");
       return;
     }
-
+  
     const formData = new FormData();
     formData.append("file", file);
     formData.append("type", conversionType);
-
+  
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5001/convert", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-        responseType: "blob",
-      });
+      const response = await axios.post(
+        "https://editlybackend.onrender.com/convert", // ✅ updated URL
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          responseType: "blob",
+        }
+      );
       setConvertedBlob(response.data);
     } catch (err) {
       console.error("❌ Conversion Error:", err);
@@ -41,6 +45,7 @@ function Converter() {
       setLoading(false);
     }
   };
+
 
   const handleDownload = () => {
     if (!convertedBlob) return;
