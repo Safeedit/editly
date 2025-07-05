@@ -18,7 +18,7 @@ function CompressPdf() {
 
     setLoading(true);
     try {
-      const res = axios.post("https://editlybackend.onrender.com/convert", {
+      const res = await fetch("https://editlybackend.onrender.com/convert", {
         method: "POST",
         body: formData,
       });
