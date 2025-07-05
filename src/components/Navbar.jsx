@@ -6,7 +6,7 @@ function Navbar() {
     <nav
       style={{
         background: "#003366", // Deep Blue background for the nav bar
-        padding: "12px 24px",
+        padding: "8px 16px", // Reduced padding for compactness
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
@@ -22,9 +22,9 @@ function Navbar() {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "10px",
+          gap: "8px", // Reduced gap
           color: "#FFFFFF", // White text for the logo
-          fontSize: "22px",
+          fontSize: "20px", // Smaller font size
           textDecoration: "none",
           fontWeight: "bold",
         }}
@@ -32,33 +32,51 @@ function Navbar() {
         <img
           src="/favicon.png"
           alt="Editly Logo"
-          style={{ width: "85px", height: "65px", objectFit: "contain" }}
+          style={{ width: "70px", height: "50px", objectFit: "contain" }} // Smaller logo
         />
         Editly
       </Link>
 
-      <div style={{ display: "flex", gap: "20px" }}>
+      <div style={{ display: "flex", gap: "16px" }}>
         <Link
           to="/"
           style={navLinkStyle}
-          onMouseOver={(e) => (e.target.style.color = "#FF8C00")} // Orange hover color
-          onMouseOut={(e) => (e.target.style.color = "#FFFFFF")} // White text on mouse out
+          onMouseOver={(e) => {
+            e.target.style.color = "#FFB74D"; // Light orange color on hover
+            e.target.style.textShadow = "0 0 5px #FF8C00"; // Fire-like glow effect
+          }}
+          onMouseOut={(e) => {
+            e.target.style.color = "#FFFFFF"; // White text on mouse out
+            e.target.style.textShadow = "none"; // Remove glow effect
+          }}
         >
           Home
         </Link>
         <Link
           to="/about"
           style={navLinkStyle}
-          onMouseOver={(e) => (e.target.style.color = "#FF8C00")}
-          onMouseOut={(e) => (e.target.style.color = "#FFFFFF")}
+          onMouseOver={(e) => {
+            e.target.style.color = "#FFB74D";
+            e.target.style.textShadow = "0 0 5px #FF8C00";
+          }}
+          onMouseOut={(e) => {
+            e.target.style.color = "#FFFFFF";
+            e.target.style.textShadow = "none";
+          }}
         >
           About
         </Link>
         <Link
           to="/contact"
           style={navLinkStyle}
-          onMouseOver={(e) => (e.target.style.color = "#FF8C00")}
-          onMouseOut={(e) => (e.target.style.color = "#FFFFFF")}
+          onMouseOver={(e) => {
+            e.target.style.color = "#FFB74D";
+            e.target.style.textShadow = "0 0 5px #FF8C00";
+          }}
+          onMouseOut={(e) => {
+            e.target.style.color = "#FFFFFF";
+            e.target.style.textShadow = "none";
+          }}
         >
           Contact
         </Link>
@@ -70,8 +88,8 @@ function Navbar() {
 const navLinkStyle = {
   color: "#FFFFFF", // White text for links
   textDecoration: "none",
-  fontSize: "16px",
-  transition: "color 0.2s ease-in-out",
+  fontSize: "14px", // Smaller font size for links
+  transition: "color 0.2s ease-in-out, text-shadow 0.2s ease-in-out", // Smooth transition for effects
 };
 
 export default Navbar;
