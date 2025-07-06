@@ -13,10 +13,13 @@ function ImageEditor() {
   const [editedImage, setEditedImage] = useState(null);
 
   const handleEdit = async () => {
-    if (!file) return alert("Please select an image.");
+    if (!file) {
+      alert("Please select an image.");
+      return;
+    }
 
     const formData = new FormData();
-    formData.append("file", file); // ✅ Flask expects "file"
+    formData.append("file", file);
 
     if (bgMode === "add-color") {
       formData.append("bg_color", bgColor);
@@ -24,17 +27,29 @@ function ImageEditor() {
       formData.append("bg_image", bgImage);
     }
 
+    const endpoint = enhance ? "/enhance" : "/remove-bg";
+
     setLoading(true);
+    setEditedImage(null);
+
     try {
-      const endpoint = enhance ? "/enhance" : "/remove-bg";
-      const res = await axios.post(
+      const response = await axios.post(
         `https://image-edit-service.onrender.com${endpoint}`,
         formData,
-        { responseType: "blob" }
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          responseType: "blob",
+        }
       );
-      setEditedImage(URL.createObjectURL(res.data));
+
+      const imageBlob = new Blob([response.data], { type: response.data.type });
+      const imageUrl = URL.createObjectURL(imageBlob);
+      setEditedImage(imageUrl);
     } catch (err) {
-      alert("Editing failed: " + err.message);
+      console.error("❌ Upload Error:", err);
+      alert("Editing failed: " + (err.response?.data?.error || err.message));
     } finally {
       setLoading(false);
     }
@@ -45,11 +60,10 @@ function ImageEditor() {
       <h3>🖼️ Image Editor (Background & Enhance)</h3>
 
       <DropzoneUpload
-        onFilesSelected={(f) => setFile(f)} // ✅ Fixed here
+        onFilesSelected={(f) => setFile(f)}
         accept="image/*"
         multiple={false}
       />
-
       {file && <p>✅ Selected: {file.name}</p>}
 
       <div style={{ margin: "10px 0" }}>
@@ -71,7 +85,7 @@ function ImageEditor() {
 
       {bgMode === "add-image" && (
         <DropzoneUpload
-          onFilesSelected={(f) => setBgImage(f)} // ✅ Fixed here
+          onFilesSelected={(f) => setBgImage(f)}
           accept="image/*"
           multiple={false}
         />
