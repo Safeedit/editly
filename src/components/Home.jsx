@@ -12,6 +12,7 @@ import CompressPdf from "./CompressPdf";
 import OcrPdf from "./OcrPdf";
 import PasswordProtect from "./PasswordProtect";
 import ReorderPdf from "./ReorderPdf";
+import ImageEditor from "./ImageEditor";
 
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -69,6 +70,7 @@ function Home() {
         <div className="tool-box"><OcrPdf /></div>
         <div className="tool-box"><PasswordProtect /></div>
         <div className="tool-box"><ReorderPdf /></div>
+        <div className="tool-box"><ImageEditor /></div>
       </div>
     </div>
   );
