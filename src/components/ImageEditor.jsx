@@ -45,7 +45,7 @@ function ImageEditor() {
       <h3>🖼️ Image Editor (Background & Enhance)</h3>
 
       <DropzoneUpload
-        onFilesSelected={(f) => setFile(f[0])}
+        onFilesSelected={(f) => setFile(f)} // ✅ Fixed here
         accept="image/*"
         multiple={false}
       />
@@ -71,7 +71,7 @@ function ImageEditor() {
 
       {bgMode === "add-image" && (
         <DropzoneUpload
-          onFilesSelected={(f) => setBgImage(f[0])}
+          onFilesSelected={(f) => setBgImage(f)} // ✅ Fixed here
           accept="image/*"
           multiple={false}
         />
