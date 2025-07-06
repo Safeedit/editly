@@ -13,28 +13,32 @@ function ImageEditor() {
   const [editedImage, setEditedImage] = useState(null);
 
   const handleEdit = async () => {
-    if (!file) return alert("Please select an image.");
+  if (!file) return alert("Please select an image.");
 
-    const formData = new FormData();
-    formData.append("image", file);
+  const formData = new FormData();
+  formData.append("file", file); // ✅ must match Flask's expected key
 
-    if (bgMode === "add-color") {
-      formData.append("mode", "add-color");
-      formData.append("color", bgColor);
-    } else if (bgMode === "add-image" && bgImage) {
-      formData.append("mode", "add-image");
-      formData.append("bg_image", bgImage);
-    } else {
-      formData.append("mode", "remove");
-    }
+  if (bgMode === "add-color") {
+    formData.append("bg_color", bgColor);
+  } else if (bgMode === "add-image" && bgImage) {
+    formData.append("bg_image", bgImage);
+  }
 
-    if (enhance) formData.append("enhance", "1");
-
-    setLoading(true);
-    try {
-      const res = await axios.post("https://image-edit-service.onrender.com/edit", formData, {
-        responseType: "blob",
-      });
+  setLoading(true);
+  try {
+    const endpoint = enhance ? "/enhance" : "/remove-bg"; // Use correct API
+    const res = await axios.post(
+      `https://image-edit-service.onrender.com${endpoint}`,
+      formData,
+      { responseType: "blob" }
+    );
+    setEditedImage(URL.createObjectURL(res.data));
+  } catch (err) {
+    alert("Editing failed: " + err.message);
+  } finally {
+    setLoading(false);
+  }
+};
       setEditedImage(URL.createObjectURL(res.data));
     } catch (err) {
       alert("Editing failed: " + err.message);
