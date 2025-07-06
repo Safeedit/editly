@@ -1,7 +1,5 @@
-// Home.jsx
 import React, { useState, useRef } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
+import { pdfjs } from "react-pdf";
 
 import PdfToDocx from "./PdfToDocx";
 import DocxToPdf from "./DocxToPdf";
@@ -24,10 +22,6 @@ function Home() {
   const [textElements, setTextElements] = useState([]);
   const [selectedTextId, setSelectedTextId] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-
-  const [fontSize] = useState(12);
-  const [fontColor] = useState("#000000");
-  const [fontFamily] = useState("Arial");
 
   const fileInputRef = useRef();
 
@@ -57,9 +51,14 @@ function Home() {
       onMouseMove={onDrag}
       onMouseUp={stopDrag}
       onClick={() => setSelectedTextId(null)}
+      style={{ padding: 20 }}
     >
-      <h1></h1>
+      <h1 style={{ textAlign: "center", margin: "20px 0" }}>🧰 SafeEdit Tools Suite</h1>
+      <p style={{ textAlign: "center", color: "#666", marginBottom: "30px" }}>
+        Convert, compress, enhance, and edit your documents and images with ease.
+      </p>
 
+      <h2 style={{ margin: "20px 0 10px" }}>📄 PDF Tools</h2>
       <div className="tools-group">
         <div className="tool-box"><PdfToDocx /></div>
         <div className="tool-box"><DocxToPdf /></div>
@@ -70,6 +69,10 @@ function Home() {
         <div className="tool-box"><OcrPdf /></div>
         <div className="tool-box"><PasswordProtect /></div>
         <div className="tool-box"><ReorderPdf /></div>
+      </div>
+
+      <h2 style={{ margin: "40px 0 10px" }}>🖼️ Image Tools</h2>
+      <div className="tools-group">
         <div className="tool-box"><ImageEditor /></div>
       </div>
     </div>
