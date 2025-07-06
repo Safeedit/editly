@@ -57,8 +57,6 @@ function ImageEditor() {
 
   return (
     <div style={{ maxWidth: 500, margin: "auto", padding: 20, color: "#fff" }}>
-      <h3>🖼️ Image Editor (Background & Enhance)</h3>
-
       <DropzoneUpload
         onFilesSelected={(f) => setFile(f)}
         accept="image/*"
@@ -119,7 +117,6 @@ function ImageEditor() {
 
       {editedImage && (
         <div style={{ marginTop: 20 }}>
-          <h4>🎉 Edited Image:</h4>
           <img
             src={editedImage}
             alt="Edited Result"
