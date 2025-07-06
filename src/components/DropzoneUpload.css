@@ -8,9 +8,10 @@
   background-color: rgba(255, 255, 255, 0.04);
   color: #fff8dc;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
   font-size: 14px;
   margin-bottom: 10px;
+  outline: none;
 }
 
 .dropzone:hover {
@@ -20,5 +21,11 @@
 
 .dropzone.active {
   background-color: rgba(255, 140, 0, 0.15);
+  border-color: #ffa500;
+}
+
+/* Accessibility: show focus ring when using keyboard */
+.dropzone:focus {
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.5);
   border-color: #ffa500;
 }
