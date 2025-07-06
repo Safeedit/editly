@@ -32,7 +32,7 @@ function ImageEditor() {
 
     setLoading(true);
     try {
-      const res = await axios.post("https://editly-image-edit-service.onrender.com/edit", formData, {
+      const res = await axios.post("https://image-edit-service.onrender.com/edit", formData, {
         responseType: "blob",
       });
       setEditedImage(URL.createObjectURL(res.data));
