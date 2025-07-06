@@ -13,32 +13,25 @@ function ImageEditor() {
   const [editedImage, setEditedImage] = useState(null);
 
   const handleEdit = async () => {
-  if (!file) return alert("Please select an image.");
+    if (!file) return alert("Please select an image.");
 
-  const formData = new FormData();
-  formData.append("file", file); // ✅ must match Flask's expected key
+    const formData = new FormData();
+    formData.append("file", file); // ✅ Flask expects "file"
 
-  if (bgMode === "add-color") {
-    formData.append("bg_color", bgColor);
-  } else if (bgMode === "add-image" && bgImage) {
-    formData.append("bg_image", bgImage);
-  }
+    if (bgMode === "add-color") {
+      formData.append("bg_color", bgColor);
+    } else if (bgMode === "add-image" && bgImage) {
+      formData.append("bg_image", bgImage);
+    }
 
-  setLoading(true);
-  try {
-    const endpoint = enhance ? "/enhance" : "/remove-bg"; // Use correct API
-    const res = await axios.post(
-      `https://image-edit-service.onrender.com${endpoint}`,
-      formData,
-      { responseType: "blob" }
-    );
-    setEditedImage(URL.createObjectURL(res.data));
-  } catch (err) {
-    alert("Editing failed: " + err.message);
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      const endpoint = enhance ? "/enhance" : "/remove-bg";
+      const res = await axios.post(
+        `https://image-edit-service.onrender.com${endpoint}`,
+        formData,
+        { responseType: "blob" }
+      );
       setEditedImage(URL.createObjectURL(res.data));
     } catch (err) {
       alert("Editing failed: " + err.message);
@@ -98,7 +91,14 @@ function ImageEditor() {
       <button
         onClick={handleEdit}
         disabled={loading}
-        style={{ padding: "8px 16px", backgroundColor: "#ff8c00", color: "white" }}
+        style={{
+          padding: "8px 16px",
+          backgroundColor: "#ff8c00",
+          color: "white",
+          border: "none",
+          borderRadius: 6,
+          cursor: "pointer",
+        }}
       >
         {loading ? "Processing..." : "Apply"}
       </button>
@@ -106,7 +106,11 @@ function ImageEditor() {
       {editedImage && (
         <div style={{ marginTop: 20 }}>
           <h4>🎉 Edited Image:</h4>
-          <img src={editedImage} alt="Edited Result" style={{ maxWidth: "100%" }} />
+          <img
+            src={editedImage}
+            alt="Edited Result"
+            style={{ maxWidth: "100%", borderRadius: 8 }}
+          />
           <br />
           <a href={editedImage} download="edited.png">
             ⬇ Download
