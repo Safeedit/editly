@@ -53,12 +53,6 @@ function Home() {
       onClick={() => setSelectedTextId(null)}
       style={{ padding: 20 }}
     >
-      <h1 style={{ textAlign: "center", margin: "20px 0" }}>🧰 SafeEdit Tools Suite</h1>
-      <p style={{ textAlign: "center", color: "#666", marginBottom: "30px" }}>
-        Convert, compress, enhance, and edit your documents and images with ease.
-      </p>
-
-      <h2 style={{ margin: "20px 0 10px" }}>📄 PDF Tools</h2>
       <div className="tools-group">
         <div className="tool-box"><PdfToDocx /></div>
         <div className="tool-box"><DocxToPdf /></div>
@@ -69,10 +63,6 @@ function Home() {
         <div className="tool-box"><OcrPdf /></div>
         <div className="tool-box"><PasswordProtect /></div>
         <div className="tool-box"><ReorderPdf /></div>
-      </div>
-
-      <h2 style={{ margin: "40px 0 10px" }}>🖼️ Image Tools</h2>
-      <div className="tools-group">
         <div className="tool-box"><ImageEditor /></div>
       </div>
     </div>
