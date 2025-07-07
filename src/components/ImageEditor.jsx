@@ -8,7 +8,6 @@ function ImageEditor() {
   const [bgMode, setBgMode] = useState("remove");
   const [bgColor, setBgColor] = useState("#ffffff");
   const [bgImage, setBgImage] = useState(null);
-  const [enhance, setEnhance] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editedImage, setEditedImage] = useState(null);
 
@@ -27,14 +26,12 @@ function ImageEditor() {
       formData.append("bg_image", bgImage);
     }
 
-    const endpoint = enhance ? "/enhance" : "/remove-bg";
-
     setLoading(true);
     setEditedImage(null);
 
     try {
       const response = await axios.post(
-        `https://image-edit-service.onrender.com${endpoint}`,
+        `https://image-edit-service.onrender.com/remove-bg`,
         formData,
         {
           headers: {
@@ -57,6 +54,8 @@ function ImageEditor() {
 
   return (
     <div style={{ maxWidth: 500, margin: "auto", padding: 20, color: "#fff" }}>
+      <h3>🖼️ Background Remover</h3>
+
       <DropzoneUpload
         onFilesSelected={(f) => setFile(f)}
         accept="image/*"
@@ -88,17 +87,6 @@ function ImageEditor() {
           multiple={false}
         />
       )}
-
-      <div style={{ margin: "10px 0" }}>
-        <label>
-          <input
-            type="checkbox"
-            checked={enhance}
-            onChange={() => setEnhance((prev) => !prev)}
-          />
-          Enhance Image
-        </label>
-      </div>
 
       <button
         onClick={handleEdit}
